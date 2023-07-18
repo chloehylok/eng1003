@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title> Starting Location</title>
+  <link rel="icon" href="../img/road.png">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+  <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.light_blue-indigo.min.css" />
+  <script src="../js/services.js"></script>
+  <script src="../js/config.js"></script>
+  <!-- Import Mapbox Libraries-->
+  <script src="https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.js"></script>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.css" rel="stylesheet" />
+  <style>
+    /* Define any CSS here */
+    #map {
+      width: 80vw;
+      height: 40vh;
+      margin: auto
+    }
+  </style>
+</head>
+
+<body>
+  <!--Header with Drawer that will be used on every page-->
+  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+      <div class="mdl-layout__header-row">
+        <!-- Title -->
+        <img src="../img/road.png" style="width: 40px; height: 40px;">
+        <span class="mdl-layout-title" style="color: white; right: -10px">GetawayBloom</span>
+        <!-- Add spacer, to align navigation to the right -->
+        <div class="mdl-layout-spacer"></div>
+      </div>
+    </header>
+    <div class="mdl-layout__drawer">
+      <span class="mdl-layout-title">Quick Links</span>
+      <nav class="mdl-navigation">
+        <a class="mdl-navigation__link" href="homepage.html">Homepage</a>
+        <a class="mdl-navigation__link" href="previouslyPlanned.html">Previously Planned Vacations</a>
+      </nav>
+    </div>
+    <main class="mdl-layout__content">
+      <div class="page-content">
+        <div class="mdl-grid">
+          <!--START WRITING CONTENT HERE-->
+          <!--ROW 1-->
+          <div class="mdl-grid">
+            <div class="mdl-cell mdl-cell--4-col mdl-cell--12-col-desktop mdl-cell--8-col-tablet">
+              <!--search bar-->
+              <div class="mdl-textfield mdl-js-textfield">
+                <input class="mdl-textfield__input" type="text" id="startLocSearch">
+                <label class="mdl-textfield__label" for="startLocSearch">Search for address/location</label>
+              </div>
+              <!--search button-->
+              <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+                onclick="getCoordinates()">
+                <i class="material-icons">search</i>Search
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- ROW 2: Map -->
+        <div class="mdl-grid">
+          <div class="mdl-cell mdl-cell--4-col mdl-cell--12-col-desktop mdl-cell--8-col-tablet">
+            <div id="map"></div>
+          </div>
+        </div>
+        <!--ROW 3: get current location button-->
+        <div class="mdl-grid">
+          <div class="mdl-cell mdl-cell--4-col mdl-cell--12-col-desktop mdl-cell--8-col-tablet">
+            <div style="width:450px; margin:auto">
+              <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+                onclick="getCurrentLocation()" style="width:400px;"><i class="material-icons">my_location</i> Set
+                Current Location as Starting Point</button>
+            </div>
+          </div>
+        </div>
+        <!--ROW 4: next button-->
+        <div class="mdl-grid">
+          <div class="mdl-cell mdl-cell--4-col mdl-cell--12-col-desktop mdl-cell--8-col-tablet"
+            style="width: 225px; margin:auto">
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+              onclick="cancelStartLocation()" style="width:100px">Cancel</button>
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+              onclick="choosingVehicleRedirect()" style="width:100px">Next</button>
+          </div>
+        </div>
+        <!--ROW 5: SNACKBAR-->
+        <div aria-live="assertive" aria-atomic="true" aria-relevant="text" class="mdl-snackbar mdl-js-snackbar">
+          <div class="mdl-snackbar__text" style="text-align: center;"></div>
+          <button type="button" class="mdl-snackbar__action"></button>
+        </div>
+      </div>
+      <!--END OF MAIN CONTENT-->
+    </main>
+  </div>
+  <!--link other relevant js files here-->
+  <script src="../js/startingLocation.js"></script>
+  <script src="../js/share.js"></script>
+</body>
+
+</html>
+
+<!--Acknowledgements
+- Company logo and favicon images were used from online resources
+Link to author's page: https://www.flaticon.com/authors/freepik
+Link to the specific company logo and favicon image: https://www.flaticon.com/free-icon/road_1257404-->

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title> Point of Interest</title>
+  <link rel="icon" href="../img/road.png">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+  <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.light_blue-indigo.min.css" />
+  <script src="../js/services.js"></script>
+  <script src="../js/config.js"></script>
+  <!--mapbox library and map-->
+  <script src="https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.js"></script>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.css" rel="stylesheet" />
+  <style>
+    /* Define any CSS here */
+    #map {
+      width: 65vw;
+      height: 36vh;
+    }
+  </style>
+</head>
+
+<body>
+  <!--Header with Drawer that will be used on every page-->
+  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+      <div class="mdl-layout__header-row">
+        <!-- Title -->
+        <img src="../img/road.png" style="width: 40px; height: 40px;">
+        <span class="mdl-layout-title" style="color: white; right: -10px">GetawayBloom</span>
+        <!-- Add spacer, to align navigation to the right -->
+        <div class="mdl-layout-spacer"></div>
+      </div>
+    </header>
+    <div class="mdl-layout__drawer">
+      <span class="mdl-layout-title">Quick Links</span>
+      <nav class="mdl-navigation">
+        <a class="mdl-navigation__link" href="homepage.html">Homepage</a>
+        <a class="mdl-navigation__link" href="previouslyPlanned.html">Previously Planned Vacations</a>
+      </nav>
+    </div>
+    <main class="mdl-layout__content">
+      <div class="page-content">
+        <div class="mdl-grid">
+          <!--START WRITING CONTENT HERE-->
+          <!--ROW 1-->
+          <div class="mdl-grid">
+            <div class="mdl-cell mdl-cell--4-col mdl-cell--12-col-desktop mdl-cell--8-col-tablet">
+              <!--search box-->
+              <div class="mdl-textfield mdl-js-textfield" style="width:18vw;">
+                <input class="mdl-textfield__input" type="text" id="searchBox" style="width:18vw">
+                <label class="mdl-textfield__label" for="searchBox">Search Location</label>
+              </div>
+              <!--search button-->
+              <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+                style="width:50px" onclick="searchPOI()">
+                <i class="material-icons">search</i></button>
+              <br>
+              <!--filters-->
+              <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option0">
+                <input type="radio" id="option0" class="mdl-radio__button" name="filterOptions" value="lodging">
+                <span class="mdl-radio__label">Accommodation</span>
+              </label>
+              <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option1">
+                <input type="radio" id="option1" class="mdl-radio__button" name="filterOptions" value="food">
+                <span class="mdl-radio__label">Restaurants</span>
+              </label>
+              <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option2">
+                <input type="radio" id="option2" class="mdl-radio__button" name="filterOptions" value="attraction">
+                <span class="mdl-radio__label">Attractions</span>
+              </label>
+              <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option3">
+                <input type="radio" id="option3" class="mdl-radio__button" name="filterOptions" value="gas station">
+                <span class="mdl-radio__label">Gas Stations</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <!--ROW 2: map display and point of interest list-->
+        <div class="mdl-grid">
+          <div class="mdl-cell mdl-cell--4-col mdl-cell--9-col-desktop mdl-cell--9-col-tablet"
+            style="padding-left: 9vw;">
+            <div class="map" id="map"></div>
+          </div>
+          <div class="mdl-cell mdl-cell--4-col mdl-cell--3-col-desktop mdl-cell--3-col-tablet">
+            <div id="poiList" style="position:relative;top: -1vh"></div>
+          </div>
+        </div>
+      </div>
+      <!--ROW 3: route list table-->
+      <div class="mdl-grid">
+        <div class="mdl-cell mdl-cell--4-col mdl-cell--12-col-desktop mdl-cell--8-col-tablet"
+          style="overflow-x:auto; height:25vh">
+          <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp"
+            style="width: 80vw; height:30vh; margin:auto;">
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th class="mdl-data-table__cell--non-numeric">Name</th>
+                <th class="mdl-data-table__cell--non-numeric">Type</th>
+                <th>Leg Distance (km)</th>
+                <th class="mdl-data-table__cell--non-numeric"></th>
+                <th class="mdl-data-table__cell--non-numeric"></th>
+              </tr>
+            </thead>
+            <tbody id="routeList"></tbody>
+          </table>
+        </div>
+      </div>
+      <!--ROW 4: next/close button-->
+      <div class="mdl-grid">
+        <div class="mdl-cell mdl-cell--4-col mdl-cell--12-col-desktop mdl-cell--8-col-tablet">
+          <div style="width: 225px; margin: auto; overflow: auto;">
+            <button style="width:100px"
+              class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+              onclick="cancelPOI()">Cancel</button>
+            <button style="width:100px"
+              class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+              onclick="finalisingRedirect()">Next</button>
+          </div>
+        </div>
+      </div>
+      <!--Row 5: Toast Snackbar Display-->
+      <div aria-live="assertive" aria-atomic="true" aria-relevant="text" class="mdl-snackbar mdl-js-snackbar">
+        <div class="mdl-snackbar__text" style="text-align: center;"></div>
+        <button type="button" class="mdl-snackbar__action"></button>
+      </div>
+      <!--END OF MAIN CONTENT-->
+  </div>
+  </div>
+  </main>
+  </div>
+  <!--link other relevant js files here-->
+  <script src="../js/share.js"></script>
+  <script src="../js/POI.js"></script>
+</body>
+
+</html>
+
+<!--Acknowledgements
+- Company logo and favicon images were used from online resources
+Link to author's page: https://www.flaticon.com/authors/freepik
+Link to the specific company logo and favicon image: https://www.flaticon.com/free-icon/road_1257404-->

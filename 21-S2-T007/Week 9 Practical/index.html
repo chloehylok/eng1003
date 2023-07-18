@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="application-name" content="Locker Exercise">
+    <meta name="moss-verification" content="87uiyjhk3rwfegdfgoq8345t4hek5rstnfvfa87i43rw4egda">
+    <title>Locker Exercise</title>
+    <!-- Import library code for MDL-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+</head>
+<body>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <header class="mdl-layout__header">
+            <div class="mdl-layout__header-row">
+                <span class="mdl-layout-title">Locker Exercise</span>
+                <div class="mdl-layout-spacer"></div>
+                <nav class="mdl-navigation mdl-layout--large-screen-only">
+                    <a class="mdl-navigation__link" onclick="addNewLocker()" href="#">Add Locker</a>
+                </nav>
+            </div>
+        </header>
+        <main class="mdl-layout__content">
+            <div class="page-content">
+                <!-- space for lockers -->
+                <div class="mdl-grid">
+                    <div class="mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+                        <h4>Locker Display</h4>
+                    </div>
+                </div>
+                <div id="inventoryContainer">
+                  <!-- placeholder for inventory display -->
+                    <div class="mdl-grid">
+                        <div class="mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--4-col-phone"
+                            id="inventoryContent">
+                            <!-- start of table-->
+                            <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                                <thead>
+                                    <tr>
+                                        <th class="mdl-data-table__cell--non-numeric">Locker ID</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Locker Label</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="lockerTable">
+                                </tbody>
+                            </table>
+                            <!-- end of table-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <!-- Attach JS files -->
+    <script src="js/shared.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
